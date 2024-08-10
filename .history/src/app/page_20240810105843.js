@@ -54,28 +54,28 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-dvh bg-white">
-      <header className="px-4 lg:px-6 h-14 flex items-center bg-white">
+    <div className="flex flex-col min-h-dvh">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
         <Link href="/" className="flex items-center justify-center">
-          <UnicornIcon className="size-6 text-gray-800" />
-          <span className="sr-only">Newsletter</span>
+          <UnicornIcon className="size-6" />
+          <span className="sr-only">Unicorn Poop Newsletter</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link
             href="#past-issues"
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4"
           >
             Past Issues
           </Link>
           <Link
             href="#"
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4"
           >
             About
           </Link>
           <Link
             href="#"
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
+            className="text-sm font-medium hover:underline underline-offset-4"
           >
             Contact
           </Link>
@@ -83,15 +83,15 @@ export default async function Home() {
       </header>
 
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-purple-200">
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">
-                Get Your Dose of Newsletter Magic!
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#301934]">
+                Get Your Dose of Unicorn Magic!
               </h1>
-              <p className="max-w-[600px] text-white md:text-xl">
-                Subscribe to our Newsletter for ideas and updates straight to
-                your inbox!
+              <p className="max-w-[600px] text-gray-600 md:text-xl">
+                Subscribe to the Unicorn Poop Newsletter for sparkles, SaaS
+                ideas, and magical updates straight to your inbox!
               </p>
               {/* <NewsletterSignup /> */}
             </div>
@@ -102,10 +102,10 @@ export default async function Home() {
           <section className="w-full py-12 md:py-24 lg:py-32">
             <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
               <div className="flex flex-col items-center justify-center text-center space-y-4">
-                <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-gray-700">
+                <div className="inline-block rounded-lg bg-[#1b1124] px-3 py-1 text-sm text-[#301934]">
                   Latest Issue
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gray-900">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#301934]">
                   {issues[0].title}
                 </h2>
                 <p className="max-w-[700px] text-gray-600 md:text-xl">
@@ -115,7 +115,7 @@ export default async function Home() {
               <div className="text-center">
                 <Link
                   href={`/issues/${issues[0].slug}`}
-                  className="inline-block bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
+                  className="inline-block bg-[#301934] text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors"
                 >
                   Read Latest Issue
                 </Link>
@@ -126,31 +126,28 @@ export default async function Home() {
 
         <section
           id="past-issues"
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-800"
+          className="w-full py-12 md:py-24 lg:py-32 bg-pink-50"
         >
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
-              <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-[#010203]">
+              <div className="inline-block rounded-lg bg-[#1b1124] px-3 py-1 text-sm text-[#301934]">
                 Past Issues
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#301934]">
                 Revisit the Magic
               </h2>
-              <p className="max-w-[700px] text-white md:text-xl">
-                Explore our archive of past newsletter issues.
+              <p className="max-w-[700px] text-gray-600 md:text-xl">
+                Explore our archive of past newsletter issues to relive the
+                wonder and whimsy.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {issues &&
                 issues.map((issue) => (
-                  <Card key={issue.slug} className="bg-white">
+                  <Card key={issue.slug}>
                     <CardHeader>
-                      <CardTitle className="text-gray-900">
-                        {issue.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-600">
-                        {issue.description}
-                      </CardDescription>
+                      <CardTitle>{issue.title}</CardTitle>
+                      <CardDescription>{issue.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-gray-500">
@@ -161,7 +158,7 @@ export default async function Home() {
                     <CardFooter>
                       <Link
                         href={`/issues/${issue.slug}`}
-                        className="text-gray-700 hover:text-gray-900 hover:underline"
+                        className="text-[#301934] hover:underline"
                       >
                         Read Issue
                       </Link>
@@ -173,21 +170,15 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 bg-gray-100">
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-gray-500">
-          &copy; 2024 Newsletter. All rights reserved.
+          &copy; 2024 Unicorn Poop Newsletter. All rights reserved.
         </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link
-            href="#"
-            className="text-xs text-gray-500 hover:text-gray-700 hover:underline underline-offset-4"
-          >
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
             Terms of Service
           </Link>
-          <Link
-            href="#"
-            className="text-xs text-gray-500 hover:text-gray-700 hover:underline underline-offset-4"
-          >
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
             Privacy Policy
           </Link>
         </nav>

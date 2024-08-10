@@ -55,7 +55,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-dvh bg-white">
-      <header className="px-4 lg:px-6 h-14 flex items-center bg-white">
+      <header className="px-4 lg:px-6 h-14 flex items-center bg-gray-100">
         <Link href="/" className="flex items-center justify-center">
           <UnicornIcon className="size-6 text-gray-800" />
           <span className="sr-only">Newsletter</span>

@@ -55,7 +55,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-dvh bg-white">
-      <header className="px-4 lg:px-6 h-14 flex items-center bg-white">
+      <header className="px-4 lg:px-6 h-14 flex items-center bg-gray-100">
         <Link href="/" className="flex items-center justify-center">
           <UnicornIcon className="size-6 text-gray-800" />
           <span className="sr-only">Newsletter</span>
@@ -83,13 +83,13 @@ export default async function Home() {
       </header>
 
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-200">
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">
                 Get Your Dose of Newsletter Magic!
               </h1>
-              <p className="max-w-[600px] text-white md:text-xl">
+              <p className="max-w-[600px] text-gray-600 md:text-xl">
                 Subscribe to our Newsletter for ideas and updates straight to
                 your inbox!
               </p>
@@ -126,17 +126,17 @@ export default async function Home() {
 
         <section
           id="past-issues"
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-800"
+          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100"
         >
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
-              <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-[#010203]">
+              <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-gray-700">
                 Past Issues
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gray-900">
                 Revisit the Magic
               </h2>
-              <p className="max-w-[700px] text-white md:text-xl">
+              <p className="max-w-[700px] text-gray-600 md:text-xl">
                 Explore our archive of past newsletter issues.
               </p>
             </div>

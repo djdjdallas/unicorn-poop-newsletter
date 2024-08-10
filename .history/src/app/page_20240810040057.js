@@ -17,6 +17,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
+// You might want to move this to a separate component file
 function UnicornIcon(props) {
   return (
     <svg
@@ -38,14 +39,14 @@ function UnicornIcon(props) {
   );
 }
 
-// You'll need to create this as a separate Client Component
+// // You'll need to create this as a separate Client Component
 // import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default async function Home() {
   // Fetch issues from Supabase
   const { data: issues, error } = await supabase
-    .from("newsletter_issues")
-    .select("title, description, slug, published_at")
+    .from("saas_ideas")
+    .select("title, short_description, slug, published_at")
     .order("published_at", { ascending: false })
     .limit(3);
 
@@ -62,7 +63,7 @@ export default async function Home() {
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link
-            href="#past-issues"
+            href="#"
             className="text-sm font-medium hover:underline underline-offset-4"
           >
             Past Issues
@@ -98,36 +99,81 @@ export default async function Home() {
           </div>
         </section>
 
-        {issues && issues.length > 0 && (
-          <section className="w-full py-12 md:py-24 lg:py-32">
-            <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
-              <div className="flex flex-col items-center justify-center text-center space-y-4">
-                <div className="inline-block rounded-lg bg-pink-100 px-3 py-1 text-sm text-pink-600">
-                  Latest Issue
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-pink-600">
-                  {issues[0].title}
-                </h2>
-                <p className="max-w-[700px] text-gray-600 md:text-xl">
-                  {issues[0].description}
-                </p>
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
+            <div className="flex flex-col items-center justify-center text-center space-y-4">
+              <div className="inline-block rounded-lg bg-pink-100 px-3 py-1 text-sm text-pink-600">
+                Latest Issue
               </div>
-              <div className="text-center">
-                <Link
-                  href={`/issues/${issues[0].slug}`}
-                  className="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors"
-                >
-                  Read Latest Issue
-                </Link>
-              </div>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-pink-600">
+                What's New in Unicorn Land
+              </h2>
+              <p className="max-w-[700px] text-gray-600 md:text-xl">
+                Check out the highlights from our most recent newsletter issue,
+                featuring magical updates, sparkly insights, and more.
+              </p>
             </div>
-          </section>
-        )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Rainbow Mane Care</CardTitle>
+                  <CardDescription>
+                    Discover how to keep your SaaS mane vibrant.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    From sleek interfaces to bug fixes, we've got the tips to
+                    keep your SaaS looking fresh and magical.
+                  </p>
+                </CardContent>
+                <CardFooter>
+                  <Link href="#" className="text-pink-600">
+                    Read more
+                  </Link>
+                </CardFooter>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Glitter Hoof Polish</CardTitle>
+                  <CardDescription>
+                    The latest trends in SaaS design.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    Dive into the newest design patterns that are making SaaS
+                    apps sparkle across the globe.
+                  </p>
+                </CardContent>
+                <CardFooter>
+                  <Link href="#" className="text-pink-600">
+                    Read more
+                  </Link>
+                </CardFooter>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Unicorn of the Month</CardTitle>
+                  <CardDescription>Meet our SaaS star!</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    This month's spotlight is on a SaaS unicorn that's shaking
+                    up the industry with innovation and a sprinkle of magic.
+                  </p>
+                </CardContent>
+                <CardFooter>
+                  <Link href="#" className="text-pink-600">
+                    Read more
+                  </Link>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+        </section>
 
-        <section
-          id="past-issues"
-          className="w-full py-12 md:py-24 lg:py-32 bg-pink-50"
-        >
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-pink-50">
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <div className="inline-block rounded-lg bg-pink-100 px-3 py-1 text-sm text-pink-600">
@@ -147,18 +193,14 @@ export default async function Home() {
                   <Card key={issue.slug}>
                     <CardHeader>
                       <CardTitle>{issue.title}</CardTitle>
-                      <CardDescription>{issue.description}</CardDescription>
+                      <CardDescription>
+                        {issue.short_description}
+                      </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-500">
-                        Published on:{" "}
-                        {new Date(issue.published_at).toLocaleDateString()}
-                      </p>
-                    </CardContent>
                     <CardFooter>
                       <Link
                         href={`/issues/${issue.slug}`}
-                        className="text-pink-600 hover:underline"
+                        className="text-pink-600"
                       >
                         Read Issue
                       </Link>

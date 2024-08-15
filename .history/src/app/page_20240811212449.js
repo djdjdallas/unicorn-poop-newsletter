@@ -1,8 +1,7 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { cookies } from "next/headers";
 import {
   Card,
   CardHeader,
@@ -12,11 +11,11 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
-// // Initialize Supabase client
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL,
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// );
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 function UnicornIcon(props) {
   return (
@@ -43,19 +42,11 @@ function UnicornIcon(props) {
 // import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default async function Home() {
-  // Fetch all issues from Supabase
-  const supabase = createServerComponentClient({ cookies });
-
-  // Fetch all issues from Supabase
+  // Fetch issues from Supabase
   const { data: issues, error } = await supabase
-    .from("final_newsletter_issues")
-    .select("title, description, slug, published_at, content")
-    .order("published_at", { ascending: false })
-    .limit(10); // Explicitly set a higher limit
-
-  console.log("Fetched issues:", issues);
-  console.log("Number of issues:", issues ? issues.length : 0);
-  console.log("Fetch error:", error);
+    .from("issues")
+    .select("title, description, slug, published_at")
+    .order("published_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching issues:", error);
@@ -70,10 +61,10 @@ export default async function Home() {
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link
-            href="#all-issues"
+            href="#past-issues"
             className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
           >
-            All Issues
+            Past Issues
           </Link>
           <Link
             href="#"
@@ -133,20 +124,19 @@ export default async function Home() {
         )}
 
         <section
-          id="all-issues"
+          id="past-issues"
           className="w-full py-12 md:py-24 lg:py-32 bg-gray-800"
         >
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-[#010203]">
-                All Issues
+                Past Issues
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
-                Explore Our Newsletters
+                Revisit the Magic
               </h2>
               <p className="max-w-[700px] text-white md:text-xl">
-                Check out all of our newsletter issues, including the latest
-                content.
+                Explore our archive of past newsletter issues.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -172,7 +162,7 @@ export default async function Home() {
                         href={`/issues/${issue.slug}`}
                         className="text-gray-700 hover:text-gray-900 hover:underline"
                       >
-                        Read Full Issue
+                        Read Issue
                       </Link>
                     </CardFooter>
                   </Card>

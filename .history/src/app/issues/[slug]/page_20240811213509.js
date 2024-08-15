@@ -9,7 +9,7 @@ const supabase = createClient(
 
 export async function generateStaticParams() {
   const { data: issues, error } = await supabase
-    .from("final_newsletter_issues")
+    .from("issues")
     .select("slug")
     .order("published_at", { ascending: false });
 
@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = params;
   const { data: issue, error } = await supabase
-    .from("final_newsletter_issues")
+    .from("issues")
     .select("title, description")
     .eq("slug", slug);
 
@@ -77,10 +77,9 @@ export default async function IssuePage({ params }) {
 
   // Fetch the newsletter issue
   const { data: issue, error: issueError } = await supabase
-    .from("final_newsletter_issues")
+    .from("issues")
     .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
+    .eq("slug", slug);
 
   if (issueError) {
     console.error("Error fetching issue:", issueError);

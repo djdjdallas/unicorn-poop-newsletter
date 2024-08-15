@@ -8,35 +8,20 @@ const supabase = createClient(
 );
 
 export async function generateStaticParams() {
-  const { data: issues, error } = await supabase
-    .from("final_newsletter_issues")
-    .select("slug")
-    .order("published_at", { ascending: false });
+  const { data: issues } = await supabase
+    .from("newsletter_issues")
+    .select("slug");
 
-  if (error) {
-    console.error("Error fetching slugs:", error);
-    return [];
-  }
-
-  return issues.map((issue) => ({
-    slug: issue.slug,
-  }));
+  return issues?.map(({ slug }) => ({ slug })) || [];
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
-  const { data: issue, error } = await supabase
-    .from("final_newsletter_issues")
+  const { data: issue } = await supabase
+    .from("newsletter_issues")
     .select("title, description")
-    .eq("slug", slug);
-
-  if (error) {
-    console.error("Error fetching issue metadata:", error);
-    return {
-      title: "Issue Not Found",
-      description: "The requested newsletter issue could not be found.",
-    };
-  }
+    .eq("slug", slug)
+    .maybeSingle();
 
   if (!issue) {
     return {
@@ -77,7 +62,7 @@ export default async function IssuePage({ params }) {
 
   // Fetch the newsletter issue
   const { data: issue, error: issueError } = await supabase
-    .from("final_newsletter_issues")
+    .from("newsletter_issues")
     .select("*")
     .eq("slug", slug)
     .maybeSingle();
@@ -118,6 +103,20 @@ export default async function IssuePage({ params }) {
       </div>
     );
   }
+
+  // Function to convert newlines to <br> tags and wrap paragraphs
+  const formatContent = (content) => {
+    return content.split("\n\n").map((paragraph, index) => (
+      <p key={index} className="mb-4">
+        {paragraph.split("\n").map((line, lineIndex) => (
+          <span key={lineIndex}>
+            {line}
+            {lineIndex < paragraph.split("\n").length - 1 && <br />}
+          </span>
+        ))}
+      </p>
+    ));
+  };
 
   return (
     <div className="flex flex-col min-h-dvh bg-white">
@@ -163,10 +162,43 @@ export default async function IssuePage({ params }) {
             <p className="text-gray-600 mb-4">
               Published on: {new Date(issue.published_at).toLocaleDateString()}
             </p>
-            <div
-              className="newsletter-content"
-              dangerouslySetInnerHTML={{ __html: issue.content }}
-            />
+            <div className="prose max-w-none mb-8 text-gray-700">
+              {formatContent(issue.content)}
+            </div>
+
+            <h2 className="text-3xl font-bold mb-6 text-gray-900">
+              SaaS Ideas
+            </h2>
+            {saasIdeas.map((idea, index) => (
+              <div key={idea.id} className="mb-8 p-6 bg-gray-100 rounded-lg">
+                <h3 className="text-2xl font-bold mb-4 text-gray-900">
+                  {index + 1}. {idea.title}
+                </h3>
+                <p className="mb-4 text-gray-700">{idea.full_description}</p>
+
+                <h4 className="text-xl font-semibold mb-2 text-gray-800">
+                  TikTok Hack:
+                </h4>
+                <p className="mb-4 text-gray-700">
+                  {
+                    idea.idea_validations.find(
+                      (v) => v.category === "tiktok_hack"
+                    )?.content
+                  }
+                </p>
+
+                <h4 className="text-xl font-semibold mb-2 text-gray-800">
+                  YouTube Hack:
+                </h4>
+                <p className="text-gray-700">
+                  {
+                    idea.idea_validations.find(
+                      (v) => v.category === "youtube_hack"
+                    )?.content
+                  }
+                </p>
+              </div>
+            ))}
           </article>
 
           <div className="mt-8 border-t pt-4 border-gray-200">

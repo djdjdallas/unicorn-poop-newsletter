@@ -1,8 +1,7 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { cookies } from "next/headers";
 import {
   Card,
   CardHeader,
@@ -12,11 +11,11 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
-// // Initialize Supabase client
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL,
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// );
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 function UnicornIcon(props) {
   return (
@@ -44,9 +43,6 @@ function UnicornIcon(props) {
 
 export default async function Home() {
   // Fetch all issues from Supabase
-  const supabase = createServerComponentClient({ cookies });
-
-  // Fetch all issues from Supabase
   const { data: issues, error } = await supabase
     .from("final_newsletter_issues")
     .select("title, description, slug, published_at, content")
@@ -56,7 +52,6 @@ export default async function Home() {
   console.log("Fetched issues:", issues);
   console.log("Number of issues:", issues ? issues.length : 0);
   console.log("Fetch error:", error);
-
   if (error) {
     console.error("Error fetching issues:", error);
   }

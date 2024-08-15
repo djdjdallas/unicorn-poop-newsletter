@@ -98,8 +98,8 @@ export default async function Home() {
                 Unicorn Poop: You Might Just Use This Sh*t!
               </h1>
               <p className="max-w-[600px] text-white md:text-xl">
-                Subscribe for Weekly Doses of Validated Saas Ideas, Sprinkled
-                with Startup News
+                Subscribe to our Newsletter for ideas and updates straight to
+                your inbox!
               </p>
               {/* <NewsletterSignup /> */}
             </div>

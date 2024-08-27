@@ -71,12 +71,6 @@ export default async function Home() {
           >
             Contact
           </Link>
-          <Link
-            href="/blog"
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
-          >
-            Blog
-          </Link>
         </nav>
       </header>
 

@@ -9,7 +9,6 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import NewsletterSignup from "@/components/NewsletterSignup";
 
 function UnicornIcon(props) {
   return (
@@ -32,17 +31,17 @@ function UnicornIcon(props) {
   );
 }
 
-export default async function Home() {
+export default async function BlogPage() {
   const supabase = createServerComponentClient({ cookies });
 
-  const { data: issues, error } = await supabase
-    .from("final_newsletter_issues")
-    .select("title, description, slug, published_at, content")
+  const { data: blogPosts, error } = await supabase
+    .from("blog_posts")
+    .select("title, description, slug, published_at")
     .order("published_at", { ascending: false })
     .limit(10);
 
   if (error) {
-    console.error("Error fetching issues:", error);
+    console.error("Error fetching blog posts:", error);
   }
 
   return (
@@ -54,10 +53,10 @@ export default async function Home() {
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link
-            href="#all-issues"
+            href="/"
             className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
           >
-            All Issues
+            Home
           </Link>
           <Link
             href="#"
@@ -71,12 +70,6 @@ export default async function Home() {
           >
             Contact
           </Link>
-          <Link
-            href="/blog"
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline underline-offset-4"
-          >
-            Blog
-          </Link>
         </nav>
       </header>
 
@@ -85,84 +78,51 @@ export default async function Home() {
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-white">
-                Unicorn Poop: You Might Just Use This Sh*t!
+                Unicorn Poop Blog: Insights from the Startup World
               </h1>
               <p className="max-w-[600px] text-white md:text-xl">
-                Subscribe for a Weekly Dose of Validated Saas Ideas, Sprinkled
-                with Startup News
+                Discover in-depth articles on tech unicorns, startup strategies,
+                and innovative ideas
               </p>
-              <NewsletterSignup />
             </div>
           </div>
         </section>
 
-        {issues && issues.length > 0 && (
-          <section className="w-full py-12 md:py-24 lg:py-32">
-            <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
-              <div className="flex flex-col items-center justify-center text-center space-y-4">
-                <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-gray-700">
-                  Latest Issue
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gray-900">
-                  {issues[0].title}
-                </h2>
-                <p className="max-w-[700px] text-gray-600 md:text-xl">
-                  {issues[0].description}
-                </p>
-              </div>
-              <div className="text-center">
-                <Link
-                  href={`/issues/${issues[0].slug}`}
-                  className="inline-block bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  Read Latest Issue
-                </Link>
-              </div>
-            </div>
-          </section>
-        )}
-
-        <section
-          id="all-issues"
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-800"
-        >
+        <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6 space-y-8 lg:space-y-12">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
-              <div className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-[#010203]">
-                All Issues
-              </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-white">
-                Explore Our Newsletters
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-gray-900">
+                Latest Blog Posts
               </h2>
-              <p className="max-w-[700px] text-white md:text-xl">
-                Check out all of our newsletter issues, including the latest
-                content.
+              <p className="max-w-[700px] text-gray-600 md:text-xl">
+                Explore our most recent articles on tech unicorns and startup
+                innovations
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {issues &&
-                issues.map((issue) => (
-                  <Card key={issue.slug} className="bg-white">
+              {blogPosts &&
+                blogPosts.map((post) => (
+                  <Card key={post.slug} className="bg-white">
                     <CardHeader>
                       <CardTitle className="text-gray-900">
-                        {issue.title}
+                        {post.title}
                       </CardTitle>
                       <CardDescription className="text-gray-600">
-                        {issue.description}
+                        {post.description}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-gray-500">
                         Published on:{" "}
-                        {new Date(issue.published_at).toLocaleDateString()}
+                        {new Date(post.published_at).toLocaleDateString()}
                       </p>
                     </CardContent>
                     <CardFooter>
                       <Link
-                        href={`/issues/${issue.slug}`}
+                        href={`/blog/${post.slug}`}
                         className="text-gray-700 hover:text-gray-900 hover:underline"
                       >
-                        Read Full Issue
+                        Read Full Post
                       </Link>
                     </CardFooter>
                   </Card>
